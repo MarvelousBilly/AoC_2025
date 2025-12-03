@@ -1,2 +1,1 @@
-# AoC_2025
-My solutions to Advent of Code 2025 woooow
+Entries for Advent of Code 2025: https://adventofcode.com/2025/
