@@ -1,27 +1,27 @@
 import re
-import math
+from stopwatch import Stopwatch
 
 def checkRelative(xoff, yoff, sizex, sizey, data):
     return 1 if (not (xoff < 0 or yoff < 0 or xoff > sizex-1 or yoff > sizey-1) and (data[xoff][yoff] == "@")) else 0
 
 def part1(data):
     total = 0
-    sizex = len(data[0]) - 1
-    sizey = len(data) - 1
+    sizex = len(data[0])
+    sizey = len(data)
     
     newData = data[:]
     adj = [(-1,-1), (0, -1), (1, -1),
            (-1, 0),          (1,  0),
            (-1, 1), (0,  1), (1,  1)]
     
-    for x in range(0, sizex + 1):
-        for y in range(0, sizey + 1):
-            count = 0
+    for x in range(0, sizex):
+        for y in range(0, sizey):
             if(data[x][y] == "@"):
+                count = 0
                 for xoff,yoff in adj:
                     xoff += x
                     yoff += y
-                    count += 1 if (not (xoff < 0 or yoff < 0 or xoff > sizex or yoff > sizey) and (data[xoff][yoff] == "@")) else 0
+                    count += 1 if ((sizex > xoff >= 0 and sizey > yoff >= 0) and (data[xoff][yoff] == "@")) else 0
 
                 if(count < 4):
                     newData[x] = newData[x][:y] + "X" + newData[x][y+1:]
@@ -32,20 +32,20 @@ def part1(data):
 
 def part2(data):
     def replaceX(data): #replace all "X" in a list of strings with "."
-        newData = data
         for i, line in enumerate(data):
-            newData[i] = re.sub("X", ".", line)
-        return newData
+            data[i] = re.sub("X", ".", line)
+        return data
     
     count = 0
-    step = 0    
+    step = 0
+    
     while(True):
-        step+=1
         amt,data = part1(data)
         if(amt == 0):
             break
         
-        #uncomment these to see the step by step :)
+        ### uncomment these to see the step by step :)
+        #step+=1
         #print(f"Step {step}:")
         #print("\n".join(data))
         #print(f"Removed {amt} boxes!")
@@ -58,15 +58,24 @@ def part2(data):
 
 
 with open("input.txt") as f:
+    stopwatch = Stopwatch()
+
     data = f.read()
     data = data.split("\n")
-    
+
+    stopwatch.start()
     num,_ = part1(data)
     print(num)
+    stopwatch.stop()
+    print(stopwatch.report())
     assert(num == 1626)
     
     f.seek(0)
+    stopwatch.reset()
     
+    stopwatch.start()
     num = part2(data)
     print(num)
+    stopwatch.stop()
+    print(stopwatch.report())
     assert(num == 9173)
