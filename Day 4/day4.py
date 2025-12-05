@@ -1,9 +1,6 @@
 import re
 from stopwatch import Stopwatch
 
-def checkRelative(xoff, yoff, sizex, sizey, data):
-    return 1 if (not (xoff < 0 or yoff < 0 or xoff > sizex-1 or yoff > sizey-1) and (data[xoff][yoff] == "@")) else 0
-
 def part1(data):
     total = 0
     sizex = len(data[0])
