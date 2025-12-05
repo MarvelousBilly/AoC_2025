@@ -56,8 +56,8 @@ with open("input.txt") as f:
 
     stopwatch.start()
     num = part1(FRESH, IDS)
-    print(num)
     stopwatch.stop()
+    print(num)
     print(stopwatch.report())
     assert(num == 525)
     
@@ -66,7 +66,7 @@ with open("input.txt") as f:
     
     stopwatch.start()
     num = part2(FRESH)
-    print(num)
     stopwatch.stop()
+    print(num)
     print(stopwatch.report())
     assert(num == 333892124923577)

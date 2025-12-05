@@ -62,8 +62,8 @@ with open("input.txt") as f:
 
     stopwatch.start()
     num,_ = part1(data)
-    print(num)
     stopwatch.stop()
+    print(num)
     print(stopwatch.report())
     assert(num == 1626)
     
@@ -72,7 +72,7 @@ with open("input.txt") as f:
     
     stopwatch.start()
     num = part2(data)
-    print(num)
     stopwatch.stop()
+    print(num)
     print(stopwatch.report())
     assert(num == 9173)
