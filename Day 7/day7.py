@@ -60,4 +60,4 @@ with open("input.txt") as f:
     stopwatch.stop()
     print(num)
     print(stopwatch.report())
-    assert(num < 796079939823479)
+    assert(num == 16937871060075)
