@@ -1,4 +1,3 @@
-import numpy as np
 import math
 from stopwatch import Stopwatch
 
@@ -16,7 +15,7 @@ def part1(f, c, Part2):
         for otherBox in range(boxIndex + 1, lenData): #find the smallest distance
             distances.append((distance(boxes[boxIndex], boxes[otherBox]), [boxIndex, otherBox]))          
     distances = sorted(distances, key=lambda x: x[0])
-    
+        
     circuits = []
     totalWires = 0
     for d in distances: #loop through from smallest to largest        
@@ -61,7 +60,7 @@ def part1(f, c, Part2):
         total = len(circuits[0]) * len(circuits[1]) * len(circuits[2]) #multiply the 3 largest        
     else:
         total = boxes[pair[0]][0] * boxes[pair[1]][0] #multiply the x coords of the last two to connect
-        
+    
     return total
 
 def part2(f):
