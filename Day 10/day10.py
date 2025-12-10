@@ -31,9 +31,11 @@ def part1(f):
 def part2(f):
     total = 0
     
+    o = Optimize()
+
     for line in f:
+        o.push()
         line = line.strip()
-        o = Optimize()
 
         buttons = [l[0:l.find(")")].split(",") for l in line.split("(")[1:]]
         joltage = line[line.find("{")+1:-1].split(",")
@@ -58,6 +60,7 @@ def part2(f):
             total += minButtons
         else:
             raise Exception("No solution")
+        o.pop()
             
     return total
 
