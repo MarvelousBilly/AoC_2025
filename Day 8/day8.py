@@ -76,7 +76,7 @@ with open("example.txt" if example else "input.txt") as f:
     stopwatch.stop()
     print(num)
     print(stopwatch.report())
-    assert num == 40 if example else 153328
+    assert(num == (40 if example else 153328))
     
     f.seek(0)
     stopwatch.reset()
@@ -86,4 +86,4 @@ with open("example.txt" if example else "input.txt") as f:
     stopwatch.stop()
     print(num)
     print(stopwatch.report())
-    assert(num == 25272 if example else 9999999)
+    assert(num == (25272 if example else 6095621910))
