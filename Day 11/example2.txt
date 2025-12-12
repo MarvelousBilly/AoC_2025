@@ -4,7 +4,7 @@ fft: ccc
 bbb: tty
 tty: ccc
 ccc: ddd eee
-ddd: hub
+ddd: hub aaa
 hub: fff
 eee: dac
 dac: fff

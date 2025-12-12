@@ -45,12 +45,12 @@ class graph():
         seen = set() #all nodes that you've seen
         
         def DFS(node):
-            if(node.name in seen): #have we done this?
+            if(node.name in seen): #have we done this ?
                 return #dont !
-            seen.add(node.name) #now we're doing it!
+            seen.add(node.name) #now we're doing it !
             for up in rev[node.name]:
                 reachable.add(up)
-                if up == "svr":
+                if up == "svr": #top of graph
                     continue
                 DFS(graphDict[up])
         
@@ -60,35 +60,38 @@ class graph():
         
     
     def traverse2(self, fftReach, dacReach):
-                
+        # so. TIL. the inputs are simple enough to not need any fancy shit. you can literally just DFS with memoization and THATS GOOD ENOUGH
+        # god why is this day 11
+        # anyway i'm keeping the reversed graph pruning idea even though its a bit slower because its cool and i can look at it later if i need to
+        
         @lru_cache(None) #memoization or something
-        def DFS(nodeName, reachedFFT, reachedDAC):
-            current = graphDict[nodeName]
+        def DFS(nodeName, reachedFFT = False, reachedDAC = False):
             total = 0
         
-            if(current.name == "fft"):
+            if(nodeName == "fft"):
                 reachedFFT = True
-            elif(current.name == "dac"):
+            elif(nodeName == "dac"):
                 reachedDAC = True
-            elif(current.name == "out"): #if reached end, you mustve passed through both nodes :)
-                return 1
+            elif(nodeName == "out"): #if reached end, you mustve passed through both nodes :)
+                return reachedFFT and reachedDAC
 
-            for p in current.points:
-                if((p.name in fftReach or reachedFFT) and (p.name in dacReach or reachedDAC)): #if p can possibly reach fft AND dac
+            for p in graphDict[nodeName].points:
+                if((p.name in fftReach or reachedFFT) and (p.name in dacReach or reachedDAC)): #if p can possibly reach fft AND dac, or has already (cool pruning bit that isnt needed)
                     total += DFS(p.name, reachedFFT, reachedDAC) #recurse through this node. if it reached out, that means it must've passed through both
-                else:
-                    #it didn't find the out so keep looking
-                    pass
                     
             return total
         
-        paths = DFS(self.name, False, False)
-        return paths
+        return DFS(self.name)
     
 def generateGraph(f):
+    stopwatch = Stopwatch()
+    stopwatch.start()
     data = [[l.strip().split(": ")[0], l.strip().split(": ")[1].split(" ")] for l in f]
     for d in data:
         graphDict.setdefault(d[0], graph(d[0])).add(d[1])
+    stopwatch.stop()
+    print(stopwatch.report())
+    
         
 def part1():
     return graphDict["you"].traverse1() #you to out
