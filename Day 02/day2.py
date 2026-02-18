@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(0, "../")
+from AOC import *
+
 import re
-import math
 
 def part1(f, r = r"^(.+)\1$"):
     total = 0
@@ -18,13 +21,9 @@ def part1(f, r = r"^(.+)\1$"):
 def part2(f):
     return part1(f, r"^(.+)\1+$") #the ONLY difference is that there can be two OR MORE of the duplicate string (which is really easy in regex)
 
-with open("input.txt") as f:
-    num = part1(f)
-    print(num)
-    assert(num == 56660955519)
-    
-    f.seek(0)
-    
-    num = part2(f)
-    print(num)
-    assert(num == 79183223243)
+
+example = False
+with open("example.txt" if example else "input.txt") as f:
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=1227775554, inputAnswer=56660955519)
+    run(part2, f, 2, example,    exampleAnswer=4174379265, inputAnswer=79183223243)

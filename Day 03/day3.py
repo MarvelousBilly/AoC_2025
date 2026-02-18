@@ -1,5 +1,7 @@
-import re
-import math
+import sys
+sys.path.insert(0, "../")
+from AOC import *
+
 import numpy as np
 
 def part1(f):
@@ -29,14 +31,8 @@ def part2(f):
     return total
 
 
-with open("input.txt") as f:
-    num = part1(f)
-    print(num)
-    assert(num == 17493)
-    
-    f.seek(0)
-    
-    num = part2(f)
-    print(num)
-    assert(num == 173685428989126)
-
+example = False
+with open("example.txt" if example else "input.txt") as f:
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=357,           inputAnswer=17493)
+    run(part2, f, 2, example,    exampleAnswer=3121910778619, inputAnswer=173685428989126)

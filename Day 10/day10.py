@@ -1,7 +1,8 @@
-import math
-from stopwatch import Stopwatch
+import sys
+sys.path.insert(0, "../")
+from AOC import *
+
 from z3 import *
-import time
 
 def part1(f):
     total = 0
@@ -65,23 +66,9 @@ def part2(f):
     return total
 
 
+
 example = False
 with open("example.txt" if example else "input.txt") as f:
-    stopwatch = Stopwatch()
-
-    stopwatch.start()
-    num = part1(f)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == (7 if example else 466))
-    
-    f.seek(0)
-    stopwatch.reset()
-    
-    stopwatch.start()
-    num = part2(f)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == (33 if example else 17214))
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=7,  inputAnswer=466)
+    run(part2, f, 2, example,    exampleAnswer=33, inputAnswer=17214)

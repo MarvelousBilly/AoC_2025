@@ -1,7 +1,23 @@
-import re
-from stopwatch import Stopwatch
+import sys
+sys.path.insert(0, "../")
+from AOC import *
 
-def part1(FRESH, IDS):
+def setupIDs(f):
+    FRESH = []
+    IDS = []
+    adding = 0 #0 = fresh, 1 = ids
+    for line in f:
+        if (line == "\n"):
+            adding = 1
+        elif (adding == 0) :
+            FRESH.append(line.strip())
+        else:
+            IDS.append(line.strip())
+    return FRESH, IDS
+
+def part1(f):
+    FRESH, IDS = setupIDs(f)
+    
     count = 0
     for ID in IDS:
         for freshRange in FRESH:
@@ -12,7 +28,8 @@ def part1(FRESH, IDS):
                 break
     return count
 
-def part2(FRESH):
+def part2(f):
+    FRESH, _ = setupIDs(f)
     FRESH = sorted(FRESH, key=lambda x: int(x.split("-")[0]))
     
     i = 0
@@ -38,35 +55,8 @@ def part2(FRESH):
     return count
 
 
-with open("input.txt") as f:
-    stopwatch = Stopwatch()
-    
-    FRESH = []
-    IDS = []
-    adding = 0 #0 = fresh, 1 = ids
-    for line in f:
-        if (line == "\n"):
-            adding = 1
-            
-        elif (adding == 0) :
-            FRESH.append(line.strip())
-        else:
-            IDS.append(line.strip())
-    
-
-    stopwatch.start()
-    num = part1(FRESH, IDS)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == 525)
-    
-    f.seek(0)
-    stopwatch.reset()
-    
-    stopwatch.start()
-    num = part2(FRESH)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == 333892124923577)
+example = False
+with open("example.txt" if example else "input.txt") as f:
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=4,  inputAnswer=525)
+    run(part2, f, 2, example,    exampleAnswer=20, inputAnswer=333892124923577)

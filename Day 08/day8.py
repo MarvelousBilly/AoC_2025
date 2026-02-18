@@ -1,9 +1,9 @@
-import math
-from stopwatch import Stopwatch
-
+import sys
+sys.path.insert(0, "../")
+from AOC import *
 
 #maybe todo optimization: sort by x position, and go down that list grabbing distances, but as soon as the distance to the x position is greater than the smallest youve seen so far, exit out early and return that smallest distance
-def part1(f, c, Part2):
+def part1(f, Part2=False):
     def distance(a, b): #two arrays
         return ((a[0] - b[0]) ** 2) + ((a[1] - b[1]) ** 2) + ((a[2] - b[2]) ** 2) #wow
     
@@ -34,7 +34,7 @@ def part1(f, c, Part2):
         t1 = target[1] == -1
         
         if(t0 and t1):                                        #neither end was found
-            circuits.append(pair)                             # add to ciruit list straight up
+            circuits.append(pair)                             #add to ciruit list straight up
             
         elif((t0 and not t1) or (not t0 and t1)):             #one end was found
             if(t0):
@@ -48,7 +48,7 @@ def part1(f, c, Part2):
             
         if(not Part2):
             totalWires += 1
-            if(totalWires >= c): #only do 10, or 1000
+            if(totalWires >= (10 if example else 1000)): #only do 10 in example, otherwise do 1000
                 break
         else:
             if(len(circuits[0]) == lenData): #once they've merged
@@ -64,26 +64,11 @@ def part1(f, c, Part2):
     return total
 
 def part2(f):
-    return part1(f, 10, True) #lmao just do part 1 but sliiiightly different
+    return part1(f, Part2 = True) #lmao just do part 1 but sliiiightly different
 
 
 example = False
 with open("example.txt" if example else "input.txt") as f:
-    stopwatch = Stopwatch()
-
-    stopwatch.start()
-    num = part1(f, 10 if example else 1000, False) #conditional formula for example War
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == (40 if example else 153328))
-    
-    f.seek(0)
-    stopwatch.reset()
-    
-    stopwatch.start()
-    num = part2(f)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == (25272 if example else 6095621910))
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=40,    inputAnswer=153328)
+    run(part2, f, 2, example,    exampleAnswer=25272, inputAnswer=6095621910)

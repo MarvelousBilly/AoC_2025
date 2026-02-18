@@ -1,5 +1,6 @@
-import re
-from stopwatch import Stopwatch
+import sys
+sys.path.insert(0, "../")
+from AOC import *
 
 def part1(f):
     rows = []
@@ -57,22 +58,8 @@ def part2(f):
     return count # wow!
 
 
-with open("input.txt") as f:
-    stopwatch = Stopwatch()
-
-    stopwatch.start()
-    num = part1(f)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == 5316572080628)
-    
-    f.seek(0)
-    stopwatch.reset()
-    
-    stopwatch.start()
-    num = part2(f)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == 11299263623062)
+example = False
+with open("example.txt" if example else "input.txt") as f:
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=4277556, inputAnswer=5316572080628)
+    run(part2, f, 2, example,    exampleAnswer=3263827, inputAnswer=11299263623062)

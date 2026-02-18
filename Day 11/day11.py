@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(0, "../")
+from AOC import *
+
 import math
 from stopwatch import Stopwatch
 from functools import lru_cache
@@ -84,19 +88,22 @@ class graph():
         return DFS(self.name)
     
 def generateGraph(f):
-    stopwatch = Stopwatch()
-    stopwatch.start()
+    sw = Stopwatch()
+
+    sw.start()
     data = [[l.strip().split(": ")[0], l.strip().split(": ")[1].split(" ")] for l in f]
     for d in data:
         graphDict.setdefault(d[0], graph(d[0])).add(d[1])
-    stopwatch.stop()
-    print(stopwatch.report())
+    sw.stop()
+    
+    print(f"Generating Graph:", end = " ")
+    print(f"[{sw.elapsed:.2f}s]" if sw.elapsed > 0.1 else f"[{sw.elapsed * 1000:.2f}ms]")
     
         
-def part1():
+def part1(f):
     return graphDict["you"].traverse1() #you to out
 
-def part2():
+def part2(f):
     startNode = graphDict["svr"]
     fft = graphDict["fft"]
     dac = graphDict["dac"]
@@ -108,24 +115,15 @@ def part2():
     
     return graphDict["svr"].traverse2(fftSearch, dacSearch) #svr to out, passing through fft and dac
 
-def run(part, example, exNum, ptNum):
-    stopwatch = Stopwatch()
-    stopwatch.start()
-    num = part()
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == (exNum if example else ptNum))
-    
+
+example = False
+graphDict = {}
+with open("example1.txt" if example else "input.txt") as f:
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    generateGraph(f)
+    run(part1, f, 1, example,    exampleAnswer=5, inputAnswer=668)
     
 graphDict = {}
-example = False
-with open("example1.txt" if example else "input.txt") as f:
-    generateGraph(f) #not timing because fuck it
-    run(part1, example, 5, 668)
-
-with open("example2.txt" if example else "input.txt") as f:
-    if(example):
-        graphDict = {} #reset because there are two examples with different data
-        generateGraph(f) #set up again
-    run(part2, example, 2, 294310962265680)
+with open("example2.txt" if example else "input.txt") as f: #dunno why but example 2 hits a recursion depth limit. don't feel like relearning the problem so lmao rip
+    generateGraph(f)
+    run(part2, f, 2, example,    exampleAnswer=2, inputAnswer=294310962265680)

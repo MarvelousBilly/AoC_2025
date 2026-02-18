@@ -1,7 +1,10 @@
-import re
-from stopwatch import Stopwatch
+import sys
+sys.path.insert(0, "../")
+from AOC import *
 
-def part1(data):
+import re
+
+def Step(data):
     total = 0
     sizex = len(data[0])
     sizey = len(data)
@@ -23,11 +26,16 @@ def part1(data):
                 if(count < 4):
                     newData[x] = newData[x][:y] + "X" + newData[x][y+1:]
                     total += 1
-                
-    
+                    
     return total, newData
 
+def part1(data):
+    data = f.read().split("\n")
+    total, _ = Step(data)
+    return total
+
 def part2(data):
+    data = f.read().split("\n")
     def replaceX(data): #replace all "X" in a list of strings with "."
         for i, line in enumerate(data):
             data[i] = re.sub("X", ".", line)
@@ -37,7 +45,7 @@ def part2(data):
     step = 0
     
     while(True):
-        amt,data = part1(data)
+        amt,data = Step(data)
         if(amt == 0):
             break
         
@@ -54,25 +62,8 @@ def part2(data):
     return count
 
 
-with open("input.txt") as f:
-    stopwatch = Stopwatch()
-
-    data = f.read()
-    data = data.split("\n")
-
-    stopwatch.start()
-    num,_ = part1(data)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == 1626)
-    
-    f.seek(0)
-    stopwatch.reset()
-    
-    stopwatch.start()
-    num = part2(data)
-    stopwatch.stop()
-    print(num)
-    print(stopwatch.report())
-    assert(num == 9173)
+example = False
+with open("example.txt" if example else "input.txt") as f:
+    #run(func, file, part#, boolean, answer to example, answer to actual problem)
+    run(part1, f, 1, example,    exampleAnswer=13, inputAnswer=1626)
+    run(part2, f, 2, example,    exampleAnswer=43, inputAnswer=9173)
